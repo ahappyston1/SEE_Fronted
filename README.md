@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 小组作业，前端
 # Getting Started with Create React App
 
@@ -69,3 +70,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+=======
+# SEE_Fronted
+神奇的作业
+>>>>>>> 6c18d4a5a3aa4ef35bc9a61b520ced37623bc459
