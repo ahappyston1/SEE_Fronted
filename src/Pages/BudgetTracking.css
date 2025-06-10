@@ -13,8 +13,11 @@
   border-bottom: 2px solid #8d99ae;
   padding-bottom: 8px;
   margin-bottom: 20px;
-  font-size: 22px;
+  font-size: 50px; /* 显著放大 */
+  font-weight: 700; /* 强调加粗 */
 }
+
+
 
 .form-section, .variance-section {
   margin-bottom: 40px;
@@ -87,7 +90,7 @@
 }
 
 .budget-page {
-  width: 100%;
+  width: 80%;
   margin: 40px auto;
   background: #f9fafb;
   padding: 10px 60px;
@@ -101,4 +104,8 @@
   .budget-page {
     padding: 20px;
   }
+}
+
+.form-group input + input {
+  margin-top: 10px;
 }

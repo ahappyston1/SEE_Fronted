@@ -1,108 +1,135 @@
-// src/pages/CostEstimation.js
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Tabs, Tab, Container, Card, Row, Col } from 'react-bootstrap';
-// import CocomoForm from '../components/cost/CocomoForm';
-import FunctionPointForm from '../components/cost/FunctionPointForm';
-import RegressionAnalysisForm from '../components/cost/RegressionAnalysisForm';
-import CostComparisonChart from '../components/cost/CostComparisonChart';
-import {
-  calculateCocomo,
-  calculateFunctionPoints,
-  runRegressionAnalysis,
-  getCostEstimates
-} from '../services/costService';
+import React, { useState } from 'react';
+import api from '../services/api';
+import './BudgetTracking.css';
 
 export default function CostEstimation() {
-  const { projectId } = useParams();
-  const [activeTab, setActiveTab] = useState('cocomo');
-  const [estimates, setEstimates] = useState([]);
+  const [model, setModel] = useState('basic');
+  const [projectType, setProjectType] = useState('Organic');
+  const [kloc, setKloc] = useState('');
+  const [costDrivers, setCostDrivers] = useState({});
+  const [phaseAdjustments, setPhaseAdjustments] = useState({});
+  const [fp, setFp] = useState('');
+  const [tcf, setTcf] = useState('');
+  const [language, setLanguage] = useState('Java');
 
-  useEffect(() => {
-    const loadEstimates = async () => {
-      const data = await getCostEstimates(projectId);
-      setEstimates(data);
-    };
-    loadEstimates();
-  }, [projectId]);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
 
-  const handleCocomoSubmit = async (formData) => {
-    const result = await calculateCocomo({ ...formData, projectId });
-    setEstimates([...estimates, result]);
+  const handleCalculate = async () => {
+    try {
+      const response = await api.post('/costestimation/cocomo', {
+        cocomo_type: model,
+        kloc: parseFloat(kloc),
+        project_type: projectType,
+        cost_drivers: costDrivers,
+        phase_adjustments: phaseAdjustments
+      });
+      setResult(response.data);
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError('Calculation failed. Please check the input.');
+      setResult(null);
+    }
   };
 
-  const handleFunctionPointsSubmit = async (formData) => {
-    const result = await calculateFunctionPoints({ ...formData, projectId });
-    setEstimates([...estimates, result]);
+  const handleKlocCalc = async () => {
+    try {
+      const response = await api.post('/costestimation/calkloc', {
+        fp: parseFloat(fp),
+        tcf: parseFloat(tcf),
+        language: language
+      });
+      setResult(response.data);
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError('KLOC Calculation failed.');
+      setResult(null);
+    }
   };
 
-  const handleRegressionSubmit = async (formData) => {
-    const result = await runRegressionAnalysis({ ...formData, projectId });
-    setEstimates([...estimates, result]);
+  const handleReset = () => {
+    setModel('basic');
+    setProjectType('Organic');
+    setKloc('');
+    setCostDrivers({});
+    setPhaseAdjustments({});
+    setFp('');
+    setTcf('');
+    setLanguage('Java');
+    setResult(null);
+    setError(null);
   };
 
   return (
-    <Container>
-      <h2 className="mb-4">成本估算</h2>
+    <div className="budget-page">
+      <h1 className="section-title">🧮 Cost Estimation (COCOMO)</h1>
+      <div className="form-section">
+        <div className="form-group"><label>Model Type</label>
+          <select value={model} onChange={e => setModel(e.target.value)}>
+            <option value="basic">Basic</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="detailed">Detailed</option>
+          </select>
+        </div>
 
-      <Tabs activeKey={activeTab} onSelect={k => setActiveTab(k)} className="mb-3">
-        <Tab eventKey="cocomo" title="COCOMO模型">
-          <Card className="mt-3">
-            <Card.Body>
-              {/*<CocomoForm onSubmit={handleCocomoSubmit} />*/}
-            </Card.Body>
-          </Card>
-        </Tab>
-        <Tab eventKey="function-points" title="功能点分析">
-          <Card className="mt-3">
-            <Card.Body>
-              <FunctionPointForm onSubmit={handleFunctionPointsSubmit} />
-            </Card.Body>
-          </Card>
-        </Tab>
-        <Tab eventKey="regression" title="回归分析">
-          <Card className="mt-3">
-            <Card.Body>
-              <RegressionAnalysisForm onSubmit={handleRegressionSubmit} />
-            </Card.Body>
-          </Card>
-        </Tab>
-        <Tab eventKey="comparison" title="结果比较">
-          <Card className="mt-3">
-            <Card.Body>
-              <h4>估算结果对比</h4>
-              {estimates.length > 0 ? (
-                <CostComparisonChart estimates={estimates} />
-              ) : (
-                <p>暂无估算数据，请先进行计算</p>
-              )}
+        <div className="form-group"><label>Project Type</label>
+          <select value={projectType} onChange={e => setProjectType(e.target.value)}>
+            <option>Organic</option><option>Semi-detached</option><option>Embedded</option>
+          </select>
+        </div>
 
-              <div className="mt-4">
-                <h5>历史估算记录</h5>
-                <Row>
-                  {estimates.map(est => (
-                    <Col md={4} key={est.estimate_id} className="mb-3">
-                      <Card>
-                        <Card.Body>
-                          <Card.Title>{est.model_type}</Card.Title>
-                          <Card.Text>
-                            <strong>估算成本:</strong> ¥{est.estimated_cost.toFixed(2)}
-                          </Card.Text>
-                          <Card.Text>
-                            <small className="text-muted">
-                              {new Date(est.created_at).toLocaleString()}
-                            </small>
-                          </Card.Text>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  ))}
-                </Row>
-              </div>
-            </Card.Body>
-          </Card>
-        </Tab>
-      </Tabs>
-    </Container>
+        <div className="form-group"><label>KLOC</label>
+          <input type="number" value={kloc} onChange={e => setKloc(e.target.value)} />
+        </div>
+
+        {model !== 'basic' && (
+          <div className="form-group"><label>Cost Drivers</label>
+            {['RELY','DATA','CPLX','TIME','STOR','ACAP','PCAP','AEXP','MODP','TOOL','SCED'].map(k => (
+              <input key={k} placeholder={k} type="number" value={costDrivers[k] || ''} onChange={e =>
+                setCostDrivers({ ...costDrivers, [k]: parseFloat(e.target.value) })} />
+            ))}
+          </div>
+        )}
+
+        {model === 'detailed' && (
+          <div className="form-group"><label>Phase Adjustments</label>
+            {['Design', 'Coding', 'Testing'].map(p => (
+              <input key={p} placeholder={p} type="number" value={phaseAdjustments[p] || ''} onChange={e =>
+                setPhaseAdjustments({ ...phaseAdjustments, [p]: parseFloat(e.target.value) })} />
+            ))}
+          </div>
+        )}
+
+        <div className="button-group">
+          <button className="btn primary" onClick={handleCalculate}>Calculate</button>
+          <button className="btn secondary" onClick={handleReset}>Reset</button>
+        </div>
+      </div>
+
+      <div className="form-section">
+        <h3 className="section-title">📏 FP → KLOC Converter</h3>
+        <div className="form-group"><label>FP</label><input value={fp} onChange={e => setFp(e.target.value)} /></div>
+        <div className="form-group"><label>TCF</label><input value={tcf} onChange={e => setTcf(e.target.value)} /></div>
+        <div className="form-group"><label>Language</label>
+          <select value={language} onChange={e => setLanguage(e.target.value)}>
+            <option>Java</option><option>C++</option><option>Python</option><option>JavaScript</option>
+          </select>
+        </div>
+        <div className="button-group"><button className="btn primary" onClick={handleKlocCalc}>Calculate</button></div>
+      </div>
+
+      {error && <p className="error-message">{error}</p>}
+
+      {result && (
+        <div className="result-section">
+          <h3>📈 Results</h3>
+          {Object.entries(result).map(([key, val]) => (
+            <p key={key}><strong>{key}:</strong> {val.toFixed ? val.toFixed(2) : val}</p>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

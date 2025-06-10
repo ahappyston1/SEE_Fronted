@@ -1,4 +1,5 @@
 // src/pages/BudgetTracking.js
+
 import React, { useState } from 'react';
 import api from '../services/api';
 import './BudgetTracking.css'; // 引入样式表
@@ -41,7 +42,7 @@ export default function BudgetTracking() {
 
   return (
     <div className="budget-page">
-      <h2 className="section-title">📊 Investment Indicator Calculator</h2>
+      <h1 className="section-title">📊 Investment Indicator Calculator</h1>
       <div className="form-section">
         <div className="form-group">
           <label>Initial Investment</label>

@@ -1,5 +1,5 @@
 .custom-navbar {
-  background-color: #1f2937; /* 深蓝灰，符合商务风格 */
+  background-color: #1f2937;
   padding: 16px 32px;
   display: flex;
   align-items: center;
@@ -33,17 +33,75 @@
 .nav-links li {
   font-size: 15px;
   font-weight: 500;
+  position: relative;
 }
 
-.nav-links a {
+.nav-links a,
+.dropdown-toggle {
   color: #e2e8f0;
   text-decoration: none;
   padding: 6px 10px;
   border-radius: 6px;
   transition: background-color 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.dropdown-toggle:hover {
   background-color: #374151;
-  color: #facc15; /* 高亮黄色 */
+  color: #facc15;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #1f2937;
+  list-style: none;
+  padding: 8px 0;
+  margin: 4px 0 0 0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu li {
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu a {
+  padding: 8px 16px;
+  display: block;
+  color: #e2e8f0;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.dropdown-menu a:hover {
+  background-color: #374151;
+  color: #facc15;
+}
+
+.dropdown-toggle i {
+  margin-left: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.dropdown:hover .dropdown-toggle i,
+.dropdown-toggle:hover i {
+  color: #facc15;
 }
