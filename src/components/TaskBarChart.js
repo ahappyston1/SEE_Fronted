@@ -57,7 +57,7 @@ const TaskBarChart = ({
   const xAxisValues = data.xAris || [];
 
   // Calculate scales
-  const margin = { top: 40, right: 40, bottom: 60, left: 60 };
+  const margin = { top: 60, right: 60, bottom: 80, left: 80 }; // 增加边距
   const innerWidth = dimensions.width - margin.left - margin.right;
   const innerHeight = dimensions.height - margin.top - margin.bottom;
 
@@ -189,7 +189,7 @@ const TaskBarChart = ({
                     x={xPos}
                     y={20}
                     textAnchor="middle"
-                    fontSize={12}
+                    fontSize={10} // 减小字体大小
                     fill="#666"
                     transform={index % 2 === 1 ? "rotate(45) translate(15, -5)" : ""}
                   >
@@ -202,7 +202,7 @@ const TaskBarChart = ({
             {/* X-axis label */}
             <text
               x={innerWidth / 2}
-              y={40}
+              y={60} // 调整位置
               textAnchor="middle"
               fontSize={14}
               fill="#333"
@@ -227,7 +227,7 @@ const TaskBarChart = ({
           {/* Legend */}
           <g transform={`translate(${margin.left}, ${margin.top - 20})`}>
             {tasks.map((task, index) => (
-              <g key={`legend-${index}`} transform={`translate(${index * 120}, 0)`}>
+              <g key={`legend-${index}`} transform={`translate(${index * 100}, 0)`}>
                 <rect
                   x={0}
                   y={-10}
@@ -239,7 +239,7 @@ const TaskBarChart = ({
                 <text
                   x={20}
                   y={3}
-                  fontSize={12}
+                  fontSize={10} // 减小字体大小
                   fill="#333"
                 >
                   {task.task_name}
