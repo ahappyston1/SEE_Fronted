@@ -1,11 +1,5 @@
 // src/pages/RiskManagement.js
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Tabs, Tab, Container, Card, Form, Button } from 'react-bootstrap';
-import SensitivityAnalysis from '../components/risk/SensitivityAnalysis';
-import DecisionTree from '../components/risk/DecisionTree';
-import MonteCarloSimulation from '../components/risk/MonteCarloSimulation';
-import { getProjectRisks } from '../services/riskService';
 import CostBenefitForm from "../components/CostBenefitForm";
 import ResultDisplay2 from "../components/ResultDisplay2";
 
@@ -77,7 +71,6 @@ export default function RiskManagement() {
   };
 
   const handleFormSubmit = async (e) => {
-    console.log("aaaaaaaaaaaaaaaaaaaaaa")
     e.preventDefault();
 
     // Validate all fields
