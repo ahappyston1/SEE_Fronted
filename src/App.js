@@ -21,7 +21,6 @@ function App() {
           <Route path="/cost-estimation" element={<CostEstimation />} />
           <Route path="/economic-metrics" element={<EconomicMetrics />} />
           <Route path="/budget-tracking" element={<BudgetTracking />} />
-
           <Route path="/risk/sensitivity-analysis" element={<SensitivityAnalysis />} />
           <Route path="/risk/monte-carlo" element={<MonteCarloSimulation />} />
           <Route path="/resource-allocation" element={<ResourceAllocation />} />
