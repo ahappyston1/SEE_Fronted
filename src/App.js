@@ -10,18 +10,17 @@ import Navbar from './components/Navbar';
 import SensitivityAnalysis from './Pages/SensitivityAnalysis';
 import MonteCarloSimulation from './Pages/MonteCarloSimulation';
 
-
 function App() {
   return (
     <Router>
       <Navbar />
       <div className="container mt-4">
         <Routes>
-          <Route path="/" element={<ProjectList />} />
+          {/* Default route and cost-estimation route both render the CostEstimation component */}
+          <Route path="/" element={<CostEstimation />} />
           <Route path="/cost-estimation" element={<CostEstimation />} />
           <Route path="/economic-metrics" element={<EconomicMetrics />} />
           <Route path="/budget-tracking" element={<BudgetTracking />} />
-
           <Route path="/risk/sensitivity-analysis" element={<SensitivityAnalysis />} />
           <Route path="/risk/monte-carlo" element={<MonteCarloSimulation />} />
           <Route path="/resource-allocation" element={<ResourceAllocation />} />
