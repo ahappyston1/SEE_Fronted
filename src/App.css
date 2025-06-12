@@ -176,7 +176,7 @@ body {
 
 /* 应用容器 */
 .app-container {
-  max-width: 900px;
+  max-width: 80%;
   margin: 0 auto;
   padding: 20px;
   background-color: white;
