@@ -122,6 +122,7 @@ export default function ResourceAllocation() {
       console.log("data[best_schedule]",data["best_schedule"])
       console.log("data[changed_bar_charts]",data["changed_bar_charts"])
       console.log("data[initial_bar_charts]",data["initial_bar_charts"])
+      console.log("data[initial_bar_charts]",data["initial_bar_charts"])
       setBestSchedule(data["best_schedule"]);// 存储后端返回的结果
       setChangedBarCharts(data["changed_bar_charts"]);
       setInitialBarCharts(data["initial_bar_charts"]);
@@ -141,7 +142,7 @@ export default function ResourceAllocation() {
 
   return (
     <div className="task-app">
-      <h1>Task Management</h1>
+      <h1>Task Management(Resuorce balance)</h1>
       <form onSubmit={handleSubmit} className="task-form">
         <div className="form-group">
           <label htmlFor="task">Task Name:</label>

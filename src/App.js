@@ -9,6 +9,7 @@ import ResourceAllocation from './Pages/ResourceAllocation';
 import Navbar from './components/Navbar';
 import SensitivityAnalysis from './Pages/SensitivityAnalysis';
 import MonteCarloSimulation from './Pages/MonteCarloSimulation';
+import ResourceSmoothing from "./Pages/ResourceSmoothing";
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
           <Route path="/budget-tracking" element={<BudgetTracking />} />
           <Route path="/risk/sensitivity-analysis" element={<SensitivityAnalysis />} />
           <Route path="/risk/monte-carlo" element={<MonteCarloSimulation />} />
-          <Route path="/resource-allocation" element={<ResourceAllocation />} />
+          <Route path="/resource/resource-allocation" element={<ResourceAllocation />} />
+          <Route path="/resource/resource-smoothing" element={<ResourceSmoothing/>} />
         </Routes>
       </div>
     </Router>

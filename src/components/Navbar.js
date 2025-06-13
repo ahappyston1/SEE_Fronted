@@ -4,10 +4,16 @@ import './Navbar.css';
 
 export default function Navbar() {
   const [riskDropdownOpen, setRiskDropdownOpen] = useState(false);
+  const [resourceDropdownOpen, setResourceDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const dropdownRef2 = useRef(null);
 
   const toggleRiskDropdown = () => {
     setRiskDropdownOpen(prev => !prev);
+  };
+
+  const toggleResourceDropdown = () => {
+    setResourceDropdownOpen(prev => !prev);
   };
 
   // 点击页面其他地方关闭下拉菜单
@@ -21,6 +27,19 @@ export default function Navbar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside2 = (event) => {
+      if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) {
+        setResourceDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside2);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside2);
     };
   }, []);
 
@@ -61,8 +80,30 @@ export default function Navbar() {
           </ul>
         </li>
 
-        <li>
-          <Link to="/resource-allocation">Resource Allocation & Optimization</Link>
+        {/*<li>*/}
+        {/*  <Link to="/resource-allocation">Resource Allocation & Optimization</Link>*/}
+        {/*</li>*/}
+        <li className="dropdown" ref={dropdownRef2}>
+          <span
+            className="dropdown-toggle"
+            onClick={toggleResourceDropdown}
+            style={{ cursor: 'pointer' }}
+          >
+            Resource Allocation & Optimization
+            <i className="fa fa-chevron-down ml-1"></i>
+          </span>
+          <ul className={`dropdown-menu ${resourceDropdownOpen ? 'show' : ''}`}>
+            <li>
+              <Link to="/resource/resource-allocation" onClick={() => setResourceDropdownOpen(false)}>
+                Resource balance
+              </Link>
+            </li>
+            <li>
+              <Link to="/resource/resource-smoothing" onClick={() => setResourceDropdownOpen(false)}>
+                Resource smoothing
+              </Link>
+            </li>
+          </ul>
         </li>
       </ul>
     </nav>
