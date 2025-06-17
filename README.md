@@ -1,5 +1,6 @@
 <<<<<<< HEAD
-小组作业，前端
+小组作业，前端 ，最终版
+This is the group project's final version!!!! 
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
